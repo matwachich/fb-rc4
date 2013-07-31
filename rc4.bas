@@ -20,11 +20,22 @@ sub rc4_init overload (key as zstring, key_len as uinteger, keystream() as ubyte
 	' ---
 	' Pseudo-Random Generator Algorithm
 	dim as integer i = 0, j = 0, t
+	' Discarding first 512 bytes
+	for x as integer = 1 to 512
+		i = (i + 1) mod 256
+		j = (j + state(i)) mod 256
+		t = state(i)
+		state(i) = state(j)
+		state(j) = t
+	next
+	' ---
 	for x as integer = 0 to size - 1
 		i = (i + 1) mod 256
 		j = (j + state(i)) mod 256
 		t = state(i)
 		state(i) = state(j)
+		state(j) = t
+		' ---
 		keystream(x) = state((state(i) + state(j)) mod 256)
 	next
 end sub

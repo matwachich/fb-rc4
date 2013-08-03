@@ -54,7 +54,7 @@ sub rc4_do overload (keystream() as ubyte, buffer as ubyte ptr, buffer_len as ui
 	next
 end sub
 
-sub rc4_do overload (keystream() as ubyte, byref buffer as const string)
+sub rc4_do overload (keystream() as ubyte, byref buffer as string)
 	for i as uinteger = 0 to len(buffer) - 1
 		for j as uinteger = lbound(keystream) to ubound(keystream)
 			*cast(ubyte ptr, strptr(buffer) + i) xor= keystream(j)
